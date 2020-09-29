@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="css1.css" />
+		<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+		<script>
+			$(function(){
+				$('.control .f_r').click(function(){
+					var inptxt=$('.control .f_l').val();
+					var inp_el=('<div class="self clearfix"><a href="#" class="f_r">主人</a><p class="f_r"></p></div>');
+					$('.message').append(inp_el);
+					$('p.f_r:last').text(inptxt);
+					$('.control .f_l').val("");
+					
+					//创建异步对象
+					var x_hr=new XMLHttpRequest;
+					
+					//请求行
+					x_hr.open("POST",'chat.php');
+					
+					//请求头
+					x_hr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+					
+					x_hr.send(null);
+					
+					x_hr.onreadystatechange=function(){
+						if(x_hr.readyState==4){
+							var p_t=x_hr.responseText;
+							var inp_jl=('<div class="robot clearfix"><a href="#" class="f_l">客服</a><p class="f_l"></p></div>');
+							$('.message').append(inp_jl);
+							$('p.f_l:last').text(p_t);
+							
+							//滚动条始终在底部
+							var st=$('.message').prop('scrollHeight');
+							console.log(st);
+							$('.message').animate({scrollTop:st},600);
+						}else{
+							p.innerHTML="出错了";
+						}
+					}
+				})
+				$(document).keydown(function(e){
+					if(e.keyCode==13){
+						$('.sendButton').trigger("click");
+					}
+					
+				})
+			});
+		</script>
+	</head>
+
+	<body>
+		<h2 style="text-align: center;">在线人工客服</h2>
+		<div class="container">
+			<div class="message">
+				<div class="robot clearfix">
+					<a href="#" class="f_l">客服</a>
+					<p class="f_l">你好，需要什么服务？</p>
+				</div>
+				<div class="self clearfix">
+					<a href="#" class="f_r">主人</a>
+					<p class="f_r">你好</p>
+				</div>
+				
+
+			</div>
+			<div class="control">
+				<input type="text" class='inputBox f_l'>
+				<input type="button" class='sendButton f_r' value='发 送'>
+			</div>
+		</div>
+	</body>
+</html>

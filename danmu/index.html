@@ -1,0 +1,105 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css1.css" />
+		<title>弹幕</title>
+		<style type="text/css">
+			* {
+				margin:0;
+				padding:0;
+				border:0;
+			}
+			.barrage {
+				width:600px;
+				height:230px;
+				margin:0 auto;
+				position:relative;
+			}
+			.barrage .show {
+				width:100%;
+				height:100%;
+				background:#000;
+				opacity:0.5;
+				position:absolute;
+				top:0;
+				left:0;
+			}
+			.barrage .show div {
+				color:#fff;
+				white-space: nowrap;
+				position:absolute;
+				right:0;
+			
+			}
+			.barrage-txt {
+				width:70%;
+				background-color:#ccc;
+			}
+			.barrage-send {
+				width:25%;
+				cursor:pointer;
+			}
+		</style>
+		<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+		<script>
+			$(function () {
+				 var colors = ["red", "green", "hotpink", "pink", "cyan", "yellowgreen", "purple", "deepskyblue"];
+				   
+				$('#danmu').click(function () {
+					$('.barrage').toggle();
+				});
+				$('.barrage-send').click(function () {
+					var randomColor = parseInt(Math.random() * colors.length);
+					var h=Math.floor(Math.random()*$('.barrage').height());
+					var txt=$('.barrage-txt').val();
+					$('.show').append('<div>'+txt+'</div>');
+						var w=$('.barrage').width();
+					$('.show div:last').css('top',h).css("color", colors[randomColor]).animate({right:w},10000,function () {
+						$('.show div:first').remove();
+					});
+					$('.barrage-txt').val(" ");
+				});
+				$(".barrage-txt").keyup(function (e) {
+					if (e.keyCode == 13) {
+					$('.barrage-send').click();
+					}
+				});
+			})
+		</script>
+
+		<title>弹幕</title>
+	</head>
+
+	<body>
+		<div id="header"></div>
+		<center>
+			<a href="" id="danmu">弹幕区域</a>
+		</center>
+		<div class="a">
+			<div class="barrage">
+				<div class="show">
+
+				</div>
+			</div>
+
+			<div class="barrage">
+				<input type="text" class="barrage-txt" placeholder="请输入弹幕内容">
+				<input type="button" value="发布评论" class="barrage-send">
+			</div>
+		</div>
+		<div id="footer"></div>
+	</body>
+	<script>
+		$('#header').load("../reuse/top.html");
+		$('#footer').load("../reuse/footer.html",function(){
+			if($(window).height()>$('html').height()){
+				$('footer').css({
+					"position":"fixed",
+					"bottom": "0",
+					"left": "0"
+				});
+			}
+		});
+	</script>
+</html>

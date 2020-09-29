@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.3/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <table class="table table-bordered table-hover">
+            <caption><b>商品列表</b></caption>
+            <tr>
+                <th>序号</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>操作</th>
+            </tr>
+
+        </table>
+        <button type="button" class="btndata btn btn-primary btn-lg active">请求</button>
+    </div>
+    <script>
+        if (localStorage.getItem('data') == null) {
+
+            $('.btndata').click(function () {
+                $.get('data.json').then(function (res) {
+                    localStorage.setItem('data', JSON.stringify(res));
+                    var data = JSON.parse(localStorage.getItem('data'));
+                    var str = '';
+                    for (var key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            var element = data[key];
+                            str += '<tr><td>' + elemnt.id + '</td><td>' + elemnt.wp + '</td><td>' + elemnt.sum + '</td><td>' + elemnt.pri + '</td><td><a>编辑</a><a>删除</a></td></tr>'
+                        }
+                    }
+                    $('table').append(str);
+                })
+                window.location.href="index.html";
+            });
+
+        } else {
+            var data = JSON.parse(localStorage.getItem('data'));
+            var str = '';
+            for (var key in data) {
+                console.log(data[key]);
+                // console.log(key);
+                if (data.hasOwnProperty(key)) {
+                    var elemnt = data[key];
+                    str += `<tr>
+                            <td>${elemnt.id}</td>
+                            <td>${elemnt.name}</td>
+                            <td>${elemnt.price}</td>
+                            <td>${elemnt.amount}</td>
+                            <td><a href="bianji.html?id=${elemnt.id}">编辑</a> | <a onclick="del(${elemnt.id})">删除</a></td>
+                        </tr>`;
+                }
+            }
+            $('table').append(str);
+        }
+
+        function del(id){
+            if(confirm('确定要删除吗？')){
+                var data=JSON.parse(localStorage.getItem('data'));
+                for(var key in data){
+                    if(data[key].id==id){
+                        // 从数组里面删除元素  参数一 索引  参数二  删除几行
+                        data.splice(key,1)
+                    }
+                }
+                localStorage.setItem('data',JSON.stringify(data));
+                if(data.length==0){
+                    localStorage.removeItem('data');
+                }
+                window.location.href="index.html";
+            }
+        }
+
+
+        localStorage.setItem('name', '小航')
+        // console.log(localStorage.getItem('name'));
+    </script>
+</body>
+
+</html>

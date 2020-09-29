@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        h3 {
+            color: #666;
+            text-indent: 2px;
+        }
+
+        .input {
+            width: 98%;
+            border-radius: 4px;
+            border: 0;
+            background-color: #eee;
+            padding: 2px 5px;
+            color: #666;
+        }
+
+        .list {
+            list-style-type: none;
+            margin: 10px 0;
+            padding: 0;
+        }
+
+        .list li {
+            padding: 8px 5px;
+            height: 30px;
+            line-height: 30px;
+            border-bottom: 1px solid #ccc;
+            font-size: 14px;
+            color: #666;
+            user-select: none;
+        }
+
+        .list li span.icon {
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-position: left center;
+            text-indent: 32px;
+        }
+
+        .list li em {
+            float: right;
+            padding-right: 5px;
+            font-style: normal;
+        }
+
+        .list li .del {
+            border: 0;
+            background-color: transparent;
+            background-image: url(./img/del.png);
+            background-repeat: no-repeat;
+            text-indent: -9999px;
+            width: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .list li:hover {
+            background-color: #eee;
+        }
+
+        .list li:hover .del {
+            display: inline-block;
+        }
+
+        .total {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <h3>每日打卡</h3>
+            <input type="text" @keyup.enter="addData" placeholder="输入每天想打卡的计划，按回车创建打卡" v-model="title" class="input"
+                name="" id="">
+        </header>
+        <section v-cloak>
+            <ul class="list">
+                <li v-for="(item, index) in dataLists" :key="index">
+                    <span class="icon" v-show="today!==item.today" :style="{backgroundImage: item.url}"
+                        @click="setCount(item.id)">
+                        {{item.title}}
+                    </span>
+
+                    <span class="icon" v-show="today===item.today" style="background-image: url(./img/wc.png);">
+                        {{item.title}}
+                    </span>
+                    <em>
+                        <b>{{item.count}}</b>天/共坚持<input type="button" value="删除" class="del" @click="toDel(index)">
+                    </em>
+                </li>
+
+            </ul>
+            <p class="total">打卡计划:{{total}}个,已有计划坚持{{max}}天了！加油</p>
+        </section>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    title: '',          //标题
+                    dataLists: [],      //列表
+                    today: this.getToday()//获取今天的时间
+                }
+            },
+            // 计算属性
+            computed: {
+                // 计划总数
+                total() {
+                    return this.dataLists.length;
+                },
+                // 最大坚持天数
+                max() {
+                    // Math.max
+                    return Math.max.apply(null, this.dataLists.map(item => {
+                        return item.count
+                    }));
+                }
+            },
+            created() {
+                // 获取本地存储
+                this.dataLists = JSON.parse(localStorage.getItem('dayData')) || [];
+                // console.log(this.getToday());
+            },
+            methods: {
+                addData() {
+                    var time = Date.now();
+                    var dataList = {
+                        // id,时间戳
+                        id: time,
+                        // 图片地址
+                        url: 'url(./img/' + this.getImgname() + '.png)',
+                        // 习惯的标题
+                        title: this.title,
+                        // 打卡统计
+                        count: 0,
+                        // 写入今天日期
+                        today: ''
+                    }
+                    this.dataLists.unshift(dataList);
+                    // 更新到本地存储
+                    this.setlocaitem();
+                    this.title = '';
+                },
+                getImgname() {
+                    //随机数 1-5
+                    var ranS = Math.floor(Math.random() * 5 + 1);
+                    var name = ranS > 10 ? ranS : '0' + ranS;
+                    return name;
+                },
+                // 累加打卡
+                setCount(id) {
+                    // 通过id查找匹配的对象
+                    var obj = this.dataLists.find((obj) => {
+                        return obj.id === id;
+                    });
+                    if (obj.today !== this.getToday()) {
+                        // 累加
+                        obj.count++;
+                        // 设置今天的日期
+                        obj.today = this.getToday();
+                    }
+                    this.setlocaitem();
+                },
+                // 更新到本地存储
+                setlocaitem() {
+                    localStorage.setItem("dayData", JSON.stringify(this.dataLists));
+                },
+                getlocaitem() {
+
+                },
+                getToday() {
+                    // 时间对象
+                    var date = new Date();
+                    // 返回当天日期
+                    return date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+                },
+                // 删除一个计划
+                toDel(index) {
+                    if (confirm("你确定要删除吗？")) {
+                        console.log(index);
+                        console.log(this.dataLists);
+                        this.dataLists.splice(index, 1);
+                        this.setlocaitem();
+                    }
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>

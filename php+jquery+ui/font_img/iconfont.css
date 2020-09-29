@@ -1,0 +1,21 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1591326785926'); /* IE9 */
+  src: url('iconfont.eot?t=1591326785926#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAP4AAsAAAAACDQAAAOpAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAqEQIN5ATYCJAMICwYABCAFhG0HLxseB8gusG3kM6LgdgNugB80gG+h6Ijg+/1+e+6Tr4gm1Uj3LB4aieT1h4a2TkhEn46HzpVOW1m2x7kLg4IMJ5vlyAowV48tQUvUBapP/YRt0gABMrF7AZT3v57MrAs9Qaj/xaQlx987fb8hPg8okRDnmhQGGG8NbIyFi6yAAuOGsQta4nkCdUOCUOs5RVUgkzOnBeJYKW8HWUYjb8gPVaGsWJt7UOsmUU0L/h64Cr4fv7BkICkyMIu2jrK7IO1jzkqix39ck4eMO50JbBMZFoCc2Ku0bKCjyAJaXY2IjYFt5Qcfc5eXHmezfzyCKMGUNCFxgHNNXId3qbkJ5J16H4G/QaU022wdrKzFbrK5ubjz5OTMRKfo+PATg2gcCMH9ddsatChH+mixyRLrttPUm6LoiYMdRPvwQtDy2mYXt0HUKoyrKbw0TaFGdYjyUtFiWgOKvggfAlUNqJ+IDuiNoXXDrhYvbbtBQsbXUb9oe9ORmoc9bcTX5AZhdnvVdoPKAIcsTUS1QVjpAFBUU48gbIP3hlrunurAcj+npcyMe6GPwyanwh+H3p2buxv6JHxyMjz3mHvfrQItWEs/lZFEPt79yrIGAtV0L1j0tn66vTCoe9r2wy7AzkELC6UB0h9tTk1W0vKaPy4QpH6Y6e2LMf6ZzPlpPGDqNGf8w9gU/8BzkUt6bmfaZ6Dar9WpNT42gKo295+8hB03vLFgLQKdkYvmvS2fJeESUbOTnaJrW5gn5dkQt5v6exxRAE6N6Z/u+4AvkoEXFk5t3+0q7L63BSnSCun38CvLp1bgi5xu/4BMWEULHiQS0pi+7En091f/xsJ/HbWaJf2vEgO8X146VuW62ai+EGvwY7V5ZoNA45vqlCtsnBtIHl/Q1IS6Ov5hR7fzobY+kJhClXMhJBWDkKmawHLiAhQaFqFUtQR183I3N/Tg0SI3AubMAAidbkHS7gEynT5gOfEjFPp9h1JnNNQdhNWeDVMpUSZP2gXSxXQMMMpOTsfaegGF+RVE3qNp59P8gFRDeIPSz4SHhOXjuURH+CkWGHrlEYLAMizPaZkccBnRaDhGz3Mq0imEKARBnxAayla9KaST0wKyhke0ExBdGB0GMJQ6cXRYr7EAFT5fgZDrodGOb6ip0tcgeAbK/hnhQoR1wHIluk41tzLYoJdcBIGAxZNYPI4WIweaCI0V4TD01aNUiE6CEIoBIb0Eoage21USsrxM+3aboM5UprCG0FBcEl1XOwAAAAA=') format('woff2'),
+  url('iconfont.woff?t=1591326785926') format('woff'),
+  url('iconfont.ttf?t=1591326785926') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1591326785926#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wenda:before {
+  content: "\e687";
+}
+

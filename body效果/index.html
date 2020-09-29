@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击body有特效</title>
+    <script src="jquery.js"></script>
+    <script>
+        $(function(){
+            $top=$(window).height();
+            var c_index=0;
+            $('body').css("height",$top);
+            $('body').click(function(e){
+                var $con=new Array("666","nbsp","哈哈哈","你好坏我好喜欢！");
+                c_index=(c_index+1)%$con.length;
+                var $span=$("<span/>").text($con[c_index]);
+                console.log($span)
+                var sx=e.pageX,sy=e.pageY;
+                $span.css({
+                    "top":sy-20,
+                    "left":sx,
+                    "position":"absolute",
+                    "font-weight":"bold",
+                    "color":"#ff6651"
+                });
+                $("body").append($span);
+                $span.animate({
+                    "top":sy-180,
+                    "opacity":0
+                },1500,function(){
+                    $span.remove();
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

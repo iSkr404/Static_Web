@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>放大镜</title>
+		<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+		<script src="jq.js"></script>
+		<link rel="stylesheet" href="f.css" type="text/css" />
+	</head>
+	<body>
+		<div class="content" style="width: 500px;height: 500px; position: absolute; margin: auto; top: 0;left: 0; bottom: 0;right: 0;">
+			<div class="small_box">
+				<span class="show_box"></span>
+				<img src="t.jpg" style="width: 180px; height: 180px;" />
+			</div>
+			<div class="big_box">
+				<img src="t.jpg" style="width: 600px;height: 600px;" />
+			</div>
+			<div class="show">
+				<span><img src="t.jpg" /></span>
+				<span><img src="t1.png" /></span>
+				<span class="f_img" style="display:inline-block;height: 50px;"><img class="img" src="j.png" style="width: 50px;height: 50px;" />
+					<input type="file" class="file"></span>
+			</div>
+		</div>
+		<div id="header"></div>
+		<div id="footer"></div>
+	</body>
+	<script>
+		$('#header').load("../reuse/top.html");
+		$('#footer').load("../reuse/footer.html",function(){
+			if($(window).height()>$('html').height()){
+				$('footer').css({
+					"position":"fixed",
+					"bottom": "0",
+					"left": "0"
+				});
+			}
+		});
+	</script>
+</html>

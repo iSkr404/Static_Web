@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数据库的读取修改</title>
+		<link rel="stylesheet" href="../bootstarp/css/bootstrap.css" />
+		<style>
+			.bj,.tj{
+				cursor: pointer!important;
+			}
+			
+		</style>
+		<script src="../jquery.js"></script>
+		<script src="../bootstarp/js/bootstrap.js"></script>
+		<script>
+			$(function(){
+				var _this=null;
+				$('.t_r').on("click",".bj",function(){
+					var list=[];
+					_this=$(this);
+					var item=null;
+					//遍历节点获取文本元素
+					$.each(_this.prevAll(),function(i){
+					item=_this.siblings()[i];
+						var text=$(item).text();
+						// 可向数组的末尾添加一个或多个元素，并返回新的长度
+						list.push(text);
+					});
+					// 颠倒其元素的顺序
+					var new_list=list.reverse();
+					$('#bj #sname').val(new_list[1]);
+					$('#bj #sclass').val(new_list[0]);
+					$('#bj #sid').val(new_list[2]);
+					_this.addClass('aa');
+					var slist=[];
+					var tem=null;
+					$('#bj').on("click",".bj_submit",function(){
+						var s_name=$('#sname').val().trim();
+						var s_id=$('#sid').val().trim();
+						var s_class=$('#sclass').val().trim();
+						slist=[s_id,s_name,s_class];
+						var t=$('.aa').siblings();
+						$.each(slist,function(n){
+							tem=t[n];
+							$(tem).text(slist[n]);
+						});
+						_this.removeClass('aa');
+						$('#bj').modal('hide');
+					});
+				});
+				$('.t_r').on("click",".tj",function(){
+					var $_this=$(this);				
+					$_this.parent().addClass('tt');
+					$('#tj').on("click",".tj_submit",function(){
+						var t_name=$('#tname').val().trim();
+						var t_id=$('#tid').val().trim();
+						var t_class=$('#tclass').val().trim();
+						var thtml='<tr><td>'+t_id+'</td><td>'+t_name+'</td><td>'+t_class+'</td><td class="bj" data-toggle="modal" data-target="#bj">编辑</td></tr>';
+						$('.tt').before(thtml);
+						$('#tid').val("");
+						$('#tname').val("");
+						$('#tclass').val("");
+						$_this.parent().removeClass('tt');
+						$('#tj').modal('hide');
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div id="header"></div>
+		<div class="container" style="padding-top: 50px;">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<table class="table table-hover table-bordered">
+						<thead></thead>
+						<tbody class="t_r">
+							<tr>
+								<td colspan="4" style="text-align: center;">添加修改</td>
+							</tr>
+							<tr>
+								<td>学号</td>
+								<td>姓名</td>
+								<td>班级</td>
+								<td>操作</td>
+							</tr>
+							<tr>
+								<td>201801</td>
+								<td>安小明</td>
+								<td>安卓1801</td>
+								<td class="bj" data-toggle="modal" data-target="#bj">编辑</td>
+							</tr>
+							<tr>
+								<td>201802</td>
+								<td>桌小明</td>
+								<td>安卓1801</td>
+								<td class="bj" data-toggle="modal" data-target="#bj">编辑</td>
+							</tr>
+							<tr>
+								<td>201803</td>
+								<td>好小明</td>
+								<td>安卓1801</td>
+								<td class="bj" data-toggle="modal" data-target="#bj">编辑</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td class="tj" data-toggle="modal" data-target="#tj">添加</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- 修改框 -->
+				<div class="modal fade" tabindex="-1" role="dialog" id="bj">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content" style="width: 300px;text-align: center;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">修改数据</h4>
+							</div>
+							<div class="modal-body">
+								<p>学号：<input type="text" name="sid" id="sid" /></p>
+								<p>姓名：<input type="text" name="sname" id="sname" /></p>
+								<p>班级：<input type="text" name="sclass" id="sclass" /></p>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								<button type="button" class="btn btn-primary bj_submit">提交</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			<!-- 添加框 -->
+				<div class="modal fade" tabindex="-1" role="dialog" id="tj">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content" style="width: 300px;text-align: center;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">修改数据</h4>
+							</div>
+							<div class="modal-body">
+								<p>学号：<input type="text" name="tid" id="tid" /></p>
+								<p>姓名：<input type="text" name="tname" id="tname" /></p>
+								<p>班级：<input type="text" name="tclass" id="tclass" /></p>
+				
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								<button type="button" class="btn btn-primary tj_submit">提交</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</div>
+		</div>
+	
+		<div id="footer"></div>
+	</body>
+	<script>
+		$('#header').load("../reuse/top.html");
+		$('#footer').load("../reuse/footer.html",function(){
+			if($(window).height()>$('html').height()){
+				$('footer').css({
+					"position":"fixed",
+					"bottom": "0",
+					"left": "0"
+				});
+			}
+		});
+	</script>
+</html>

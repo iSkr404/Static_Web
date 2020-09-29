@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>知问前端</title>
+		<script src="jquery-ui/jquery.js"></script>
+		<script src="jquery-ui/jquery.ui.js"></script>
+		<script type="text/javascript" src="jquery-validation-1.11.1/dist/jquery.validate.js"></script>
+		<script src="jquery-ui/jquery.form.js"></script>
+		<script src="jquery-ui/jquery.cookie.js"></script>
+		<script src="jquery-ui/jquery-migrate-1.2.1.js"></script>
+		<script src="uEditor/uEditor.js"></script>
+		<script type="text/javascript" src="index.js"></script>
+		<link rel="stylesheet" href="jquery-ui/smoothness/jquery.ui.css" type="text/css" />
+		<link rel="stylesheet" href="font_img/iconfont.css" />
+		<link rel="icon" href="img/wenda.ico" type="img/x-icon" />
+		<link rel="stylesheet" href="index.css" type="text/css" />
+		<link rel="stylesheet" href="uEditor/uEditor.css" type="text/css"/>
+	</head>
+	<body>
+		<div id="heard">
+			<div class="heard_main">
+				<h1>知问</h1>
+				<div class="hraed_search">
+					<input type="text" name="search" class="search" />
+				</div>
+				<div class="heard_but">
+					<button id="search_but">查询</button>
+					<button id="question_button">提问</button>
+				</div>
+				<div class="heard_member">
+					<a href="javascript:void(0)" id="reg_z">注册</a>
+					<a href="javascript:void(0)" id="member">用户</a>
+					|
+					<a href="javascript:void(0)" id="login_l">登录</a>
+					<a href="javascript:void(0)" id="logout">退出</a>
+				</div>
+			</div>
+		</div>
+		
+		<form id="reg" title="会员注册">
+			<ol class="reg_error"></ol>
+				<p>
+					<label for="user">账号：</label>
+					<input type="text" class="text" id="user" name="user"/>
+					<span class="star">*</span>
+				</p>
+				<p>
+					<label for="pass">密码：</label>
+					<input type="text" class="text" id="pass" name="pass"/>
+					<span class="star">*</span>
+				</p>
+				<p>
+					<label for="email">邮箱：</label>
+					<input type="text" class="text" id="email" name="email"/>
+					<span class="star">*</span>
+				</p>
+				<p>
+					<label> 性别：</label>
+					<input type="radio" name="sex" id="nan" value="男" checked="checked"><label for="nan">男</label></input><input
+					 type="radio" name="sex" id="nv" value="女"><label for="nv">女</label></input>
+				</p>
+				<p>
+					<label for="birthday">生日：</label>
+					<input type="text" class="text" readonly="readonly" id="birthday" name="birthday" />
+				</p>
+		</form>
+		<form id="login" title="会员登录">
+			<ol class="login_error"></ol>
+			<p>
+				<label for="user">账号：</label>
+				<input type="text" class="text" id="login_user" name="login_user"/>
+				<span class="star">*</span>
+			</p>
+			<p>
+				<label for="pass">密码：</label>
+				<input type="text" class="text" id="login_pass" name="login_pass"/>
+				<span class="star">*</span>
+			</p>
+			<p>
+				<input type="checkbox" name="exp" id="exp" checked="checked"/>
+				<label for="exp">登录后有效期一周</label>
+			</p>
+		</form>
+		<div id="main">
+			<div class="main_left">
+				<!-- 选项卡 -->
+				<div id="tabs">
+					<ul>
+						<li><a href="tab1.html">最热门的提问</a></li>
+						<li><a href="tab2.html">小编推荐的提问</a></li>
+						<li><a href="tab3.html">评论最多的提问</a></li>
+					</ul>
+				</div> 
+				<div class="content">
+					
+				</div>
+			</div>
+			<div class="main_right">
+				<!-- 折叠菜单 -->
+				<div id="accordion">
+					<h1>我关注的人</h1>
+					<div>内容一</div>
+					<h1>收藏</h1>
+					<div>内容二</div>
+					<h1>喜欢</h1>
+					<div>内容三</div>
+				</div>
+			</div>
+		</div>
+		<form id="question" title="提问">
+			<p>
+				<label for="title">问题名称：</label>
+				<input type="text" class="text" id="title" name="title" style="width: 360px;"/>
+			</p>
+			<p>
+				<textarea class="uEditorCustom" name="content">请输入问题描述：
+					
+				</textarea>
+			</p>
+		</form>
+		<div id="loading">数据交互中...</div>
+		<div id="error">请登录后再操作...</div>
+	</body>
+</html>

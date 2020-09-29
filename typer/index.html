@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+		<style type="text/css">
+			.content {
+				width: 800px;
+				margin: 0 auto;
+				overflow: hidden;
+				padding-bottom: 20px;
+			}
+
+			.left,
+			.right {
+				float: left;
+			}
+
+			.left {
+				width: 300px;
+				padding-top: 20px;
+				height: 1454px;
+			}
+
+			.left_con {
+				width: 100%;
+				padding: 40px 0 0 50px;
+			}
+
+			.left_con img {
+				display: block;
+				margin: 34px;
+				margin-left: 38px;
+			}
+
+			.gb_q {
+				display: block;
+				width: 206px;
+				height: 205px;
+				background-image: url(img/coverall.png);
+				background-position: -140px -580px;
+				z-index: 99;
+				position: absolute;
+				top: 108px;
+			}
+
+			.right {
+				width: 500px;
+			}
+
+			.right_con {
+				width: 450px;
+				padding: 40px 0 0 50px;
+			}
+			.right_con img{
+				width: 100%;
+			}
+		</style>
+		<script type="text/javascript">
+			$(function() {
+				$('#header').load("../reuse/top.html");
+				$('#footer').load("../reuse/footer.html");
+				$('.right_con img').click(function(){
+					$('audio').attr("autoplay","autoplay");
+					var $text=$('.txt');
+					var str=$text.html();
+					var index=0;
+					var x=$text.html('');
+					var timer=setInterval(function(){
+						// 方法可在字符串中抽取从 start 下标开始的指定数目的字符
+						var coutxt=str.substr(index,1);
+						//当遇到<p>的<时截取字符>
+						if(coutxt=='<'){
+							index=str.indexOf('>',index);
+						}else{
+							index++;
+						}
+						$text.html(str.substring(0,index)+(index&1?'_':''));
+						if(index>=str.length){
+							clearInterval(timer);
+						}
+					},100);
+				})
+			});
+		</script>
+	</head>
+	<body style="background-color: #F5F5F5;">
+		<div id="header"></div>
+		<div class="content" style="background-color: #FFFFFF;">
+			<div class=" left">
+				<div class="left_con">
+					<img src="img/gbg.png" />
+					<span class="gb_q"></span>
+				</div>
+			</div>
+			<div class="right">
+				<div class="right_con">
+					<img src="img/title.png" />
+					<div class="txt">
+						<p>作曲 : 隔壁老樊</p>
+						<p>作词 : 隔壁老樊</p>
+						<p>制作人：段小林</p>
+						<p>编曲：黄超</p>
+						<p>吉他：黄超</p>
+						<p>鼓手：郝稷伦</p>
+						<p>贝斯：韩阳</p>
+						<p>混音：段小林</p>
+						<p>录音：杨惠琳 洪士诚</p>
+						<p>设计：阿泽</p>
+						<p>录音棚：北京好听音乐录音棚</p>
+						<p>出品：北京好听音乐科技有限公司</p>
+						<br>
+						<br>
+						<p>当初我爱的姑娘现在在远方 别人的怀里取暖</p>
+						<p>我独自一人在北方的冬天 冬天里呼喊</p>
+						<p>我用力忘掉我们的时光 在这里祝你安康</p>
+						<p>别再想念当初她在身边 有多彷徨</p>
+						<p>对你没说的话 还很多</p>
+						<p>还没放下的爱 也很多</p>
+						<p>能不能别让我一败涂地 放过我</p>
+						<p>没用的情话别再说</p>
+						<p>从此以后再没有我</p>
+						<p>祝你幸福 祝你好过</p>
+						<br>
+						<br>
+						<p>当初我爱的姑娘还在远方 别人的怀里取暖</p>
+						<p>我独自一人还在北方的冬天 冬天里呼喊</p>
+						<p>我用力忘掉我们的时光 在这里祝你安康</p>
+						<p>别再想念当初她在身边 有多彷徨</p>
+						<p>分开也不一定很难过</p>
+						<p>孤独也不一定很快乐</p>
+						<p>谁比谁清醒 谁比谁洒脱</p>
+						<p>没用的情话别再说</p>
+						<p>从此以后再没有我</p>
+						<p>祝你幸福 祝你好过</p>
+						<p>分开也不一定很难过</p>
+						<p>孤独也不一定很快乐</p>
+						<p>谁比谁清醒 谁比谁洒脱</p>
+						<p>没用的情话别再说</p>
+						<p>从此以后再没有我</p>
+						<p>祝你幸福 祝你好过</p>
+						<p>能不能别走 我忘了说</p>
+					</div>
+				</div>
+			</div>
+			<audio src="img/gq.mp3">
+			</audio>
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>

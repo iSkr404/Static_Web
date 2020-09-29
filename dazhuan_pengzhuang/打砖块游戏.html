@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            position: relative;
+            margin: 100px auto;
+        }
+
+        #ball {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            bottom: 20px;
+            left: 290px;
+        }
+
+        #bat {
+            width: 100px;
+            height: 20px;
+            background-color: blue;
+            position: absolute;
+            left: 250px;
+            bottom: 0px;
+        }
+
+        #brick>div {
+            width: 98px;
+            border: 1px solid black;
+            height: 15px;
+            float: left;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var oDiv = document.getElementById("div1");
+            var oBall = document.getElementById("ball");
+            var oBat = document.getElementById("bat");
+
+            var oBrick = document.getElementById("brick");
+            var divs = oBrick.getElementsByTagName("div");
+
+            dragX(oBat);
+            creatBrick(60);
+
+            //让小球可以在水平方向运动，随机一个水平方向的速度
+            var speedX = parseInt(Math.random() * 3) + 5;
+            var speedY = -(parseInt(Math.random() * 4) + 3);
+            var time = setInterval(function () {
+                // console.log(speedY,speedX)
+                oBall.style.left = oBall.offsetLeft + speedX + "px";
+                oBall.style.top = oBall.offsetTop + speedY + "px";
+                if (oBall.offsetLeft >= 580 || oBall.offsetLeft <= 0) {
+                    speedX *= -1;
+                }
+                if (oBall.offsetTop <= 0) {
+                    speedY *= -1;
+                }
+
+                if (oBall.offsetTop >= 580) {
+                    clearInterval(time);
+                    alert("游戏结束");
+                    window.location.reload();
+                }
+
+                //碰撞检测
+                if (peng(oBall, oBat)) {
+                    speedY *= -1;
+                }
+
+                for (var i = 0; i < divs.length; i++) {
+                    if (peng(oBall, divs[i])) {
+                        speedY *= -1;
+                        oBrick.removeChild(divs[i]);
+                        break;
+                    }
+                }
+
+            }, 30);
+            // console.log(oDiv.scrollWidth - oBall.scrollWidth)
+            // console.log(oDiv.scrollHeight - oBall.scrollHeight)
+
+            //砖块
+            function creatBrick(n) {
+                for (var i = 0; i < n; i++) {
+                    var node = document.createElement("div");
+                    node.style.backgroundColor = rgbColor();
+                    oBrick.appendChild(node);
+
+                }
+                console.log(divs.length)
+
+                for (var i = 0; i < divs.length; i++) {
+                    divs[i].style.left = divs[i].offsetLeft + "px";
+                    divs[i].style.top = divs[i].offsetTop + "px";
+                }
+                for (var i = 0; i < divs.length; i++) {
+                    divs[i].style.position = "absolute";
+                }
+            }
+
+        }
+        //拖拽方法
+        function dragX(node) {
+            node.onmousedown = function (ev) {
+                var e = ev || window.event;
+                var offsetX = e.clientX - node.offsetLeft;
+                console.log(offsetX)
+
+                document.onmousemove = function (ev) {
+                    var e = ev || window.event;
+                    var l = e.clientX - offsetX;
+                    console.log(l);
+
+                    if (l <= 0) {
+                        l = 0;
+                    }
+                    if (l >= 500) {
+                        l = 500;
+                    }
+                    console.log(l)
+                    node.style.left = l + "px";
+                }
+            }
+            document.onmouseup = function () {
+                document.onmousemove = null;
+            }
+
+
+        }
+
+        //随机颜色
+        function rgbColor() {
+            var colors = "rgb(" + parseInt(Math.random() * 256) + "," + parseInt(Math.random() * 256) + "," + parseInt(Math.random() * 256) + ")";
+            return colors;
+        }
+        //碰撞
+        function peng(node1, node2) {
+            var l1 = node1.offsetLeft;
+            var r1 = node1.offsetWidth + node1.offsetLeft;
+            var t1 = node1.offsetTop;
+            var b1 = node1.offsetTop + node1.offsetHeight;
+
+            var l2 = node2.offsetLeft;
+            var r2 = node2.offsetWidth + node1.offsetLeft;
+            var t2 = node2.offsetTop;
+            var b2 = node2.offsetTop + node1.offsetHeight;
+
+            if (l1 > r2 || r1 < l2 || t1 > b2 || b1 < t2) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div id="div1">
+        <div id="ball">
+
+        </div>
+
+        <div id="bat">
+
+        </div>
+        <div id="brick">
+
+        </div>
+    </div>
+</body>
+
+</html>

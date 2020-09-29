@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="../bootstarp/css/bootstrap.css" />
+		<script src="../jquery.js"></script>
+		<script>
+			$(function(){
+					$('#header').load("../reuse/top.html");
+					$('#footer').load("../reuse/footer.html",function(){
+						if($(window).height()>$('html').height()){
+							$('footer').css({
+								"position":"fixed",
+								"bottom": "0",
+								"left": "0"
+							});
+						}
+					});
+				$('.sub_but').click(function(){
+					var ttff=false;
+					var name= $("#inputname").val();
+					var psw= $("#inputPsw").val();
+					if(name==""){
+						alert("请填写账户名");
+						$("#inputname").focus();
+						return false;
+					}
+					if(psw==""){
+						alert("请填写用户密码");
+						$("#inputPsw").focus();
+						return false;
+					}
+					var ldata=getdata();
+					$.each(ldata,function(i){
+						if(name==ldata[i].lname&&psw==ldata[i].lpsw){
+							ttff=true;
+						}
+					});
+					console.log(ttff);
+					if(ttff){
+						 window.location.href="../index.html";
+					}else{
+						alert("账号或密码错误")
+						$("#inputname").val("");
+						$("#inputPsw").val("");
+					}
+				});
+				$('.rel_but').on("click",function(){
+					var name= $("#inputname").val();
+					var psw= $("#inputPsw").val();
+					console.log(name);
+					if(name==""){
+						alert("请填写账户名");
+						$("#inputname").focus();
+						return false;
+					}
+					if(psw==""){
+						alert("请填写用户密码");
+						$("#inputPsw").focus();
+						return false;
+					}
+					//注册保存数据
+					var local=getdata();
+					local.push({lname:name,lpsw:psw});
+					setdata(local);
+				});
+				
+				// 保存数据
+				function setdata(str){
+					localStorage.setItem("login",JSON.stringify(str));
+				}
+				function getdata(){
+					var data=localStorage.getItem("login");
+					if(data!==null){
+						return JSON.parse(data);
+					}else{
+						return [];
+					}
+				}
+			});
+			
+		</script>
+	</head>
+	<body>
+		<div id="header"></div>
+		<div class="row" style="margin-top: 100px;">
+			<div class="col-md-6 col-md-offset-3">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="inputEmail3" class="col-sm-2 control-label">账户</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="inputname" name="user" placeholder="请填写账户">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword3" class="col-sm-2 control-label">密码</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="inputPsw" name="pass" placeholder="请填写密码">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<input type="checkbox"> 记住密码
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<input type="button" class="btn btn-default sub_but" value="登录" />
+							<input type="button" class="btn btn-default rel_but" value="注册" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>

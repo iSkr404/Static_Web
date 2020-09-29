@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 500px;
+            height: 700px;
+            border: 1px solid black;
+            position: relative;
+            margin: 100px auto;
+        }
+
+        #ball {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(228, 21, 21);
+            border-radius: 50%;
+            position: absolute;
+            left: 240px;
+            bottom: 18px;
+        }
+
+        #bat {
+            width: 80px;
+            height: 18px;
+            background-color: chartreuse;
+            position: absolute;
+            bottom: 0px;
+            left: 210px;
+        }
+
+        #zhuankuai div {
+            width: 98px;
+            border: 1px solid black;
+            height: 18px;
+            float: left;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var app = document.getElementById("app");
+
+            var ball = document.getElementById("ball");
+
+            var bat = document.getElementById("bat");
+
+            var zhuankuai = document.getElementById("zhuankuai");
+            var zdivs = zhuankuai.getElementsByTagName("div");
+
+
+            //让小球可以水平方向运动，随机一个水平方向的速度
+            var suduX = 4;
+            //随机一个垂直方向上的速度
+            var suduY = 4;
+
+            var time = setInterval(function () {
+                ball.style.left = ball.offsetLeft + suduX + "px";
+                ball.style.top = ball.offsetTop - suduY + "px";
+                console.log((ball.offsetLeft + suduX) + "  " + (ball.offsetTop + suduY));
+                if (ball.offsetLeft >= 482 || ball.offsetLeft <= 0) {
+                    suduX *= -1;
+                }
+                if (ball.offsetTop <= 0) {
+                    suduY *= -1;
+                }
+
+                //碰撞检测
+                if (pengzhuang(ball, bat)) {
+                    suduY *= -1;
+                }
+                for (var i = 0; i < zdivs.length; i++) {
+                    if (pengzhuang(ball, zdivs[i])) {
+                        zhuankuai.removeChild(zdivs[i]);
+                        suduY *= -1;
+                    }
+                }
+                if (ball.offsetTop >= 682) {
+                    clearTimeout(time);
+                    alert("游戏结束！！！");
+                    window.location.reload();
+                }
+
+            }, 20);
+
+            var batleft = ball.offsetLeft - 30;
+
+            window.onkeydown = function (event) {
+                var e = event || window.event;
+                // console.log(e.keyCode)
+                // switch (e.keyCode) {
+                //     case 38||87:
+                //         console.log("hahah");
+                //         break;
+                // }
+                if (e.keyCode == 38 || e.keyCode == 87) {
+                    console.log("向上")
+                }
+                if (e.keyCode == 40 || e.keyCode == 83) {
+                    console.log("向下")
+                }
+                if (e.keyCode == 37 || e.keyCode == 65) {
+                    console.log("向左")
+                    batleft -= 10;
+                }
+                if (e.keyCode == 39 || e.keyCode == 68) {
+                    console.log("向右")
+                    batleft += 10;
+                }
+                if (batleft <= 0) {
+                    batleft = 0;
+                }
+                if (batleft >= app.scrollWidth - bat.scrollWidth) {
+                    batleft = app.scrollWidth - bat.scrollWidth;
+                }
+                // console.log(app.scrollWidth + "   " + bat.scrollWidth);
+                bat.style.left = batleft + "px";
+            }
+
+            function zhuandiv(n) {
+                for (var i = 0; i < n; i++) {
+                    var node = document.createElement("div");
+                    node.style.backgroundColor = backcolor();
+                    zhuankuai.appendChild(node);
+                }
+                
+                for (var i = 0; i < zdivs.length; i++) {
+                    zdivs[i].style.left = zdivs[i].offsetLeft + "px";
+                    zdivs[i].style.top = zdivs[i].offsetTop + "px";
+                    console.log(zdivs[i].offsetTop)
+                }
+
+                for (var i = 0; i < zdivs.length; i++) {
+                    zdivs[i].style.position="absolute";
+                }
+            }
+            zhuandiv(40);
+            function backcolor() {
+                var colorgb = "rgb(" + parseInt(Math.random() * 255) + "," + parseInt(Math.random() * 255) + "," + parseInt(Math.random() * 255) + ")";
+                return colorgb;
+            }
+            function pengzhuang(node1, node2) {
+                var l1 = node1.offsetLeft;
+                var r1 = node1.offsetLeft + node1.offsetWidth;
+                var t1 = node1.offsetTop;
+                var b1 = node1.offsetTop + node1.offsetHeight;
+
+                var l2 = node2.offsetLeft;
+                var r2 = node2.offsetLeft + node1.offsetWidth;
+                var t2 = node2.offsetTop;
+                var b2 = node2.offsetTop + node1.offsetHeight;
+
+                if (b1 < t2 || r1 < l2 || t1 > b2 || l1 > r2) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div id="ball">
+
+        </div>
+        <div id="bat">
+
+        </div>
+        <div id="zhuankuai">
+
+        </div>
+    </div>
+</body>
+
+</html>

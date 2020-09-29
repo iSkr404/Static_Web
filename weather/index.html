@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="../jquery.js"></script>
+	<script>
+		$(function () {
+			$.ajax({
+				url: "province.json",
+				type: 'GET',
+				success: function (data) {
+					$.each(data, function (i, n) {
+						$('.province').append('<option class="pro" value=' + data[i].ProID + '>' + data[i].name + '</option>');
+					})
+				}
+			});
+			var da = null;
+			$('.province').on("click", ".pro", function () {
+				var proid = $(this).val();
+				$('.city').empty();
+				$('.city').append('<option value="--" selected="selected">--请选择--</option>');
+				$.ajax({
+					url: "city.json",
+					type: 'GET',
+					data: {
+						ProID: proid
+					},
+					success: function (data) {
+						$.each(data, function (i, n) {
+							if (data[i].ProID == proid) {
+								da = data[i].name;
+								$('.city').append('<option value=' + data[i].CityID + '>' + data[i].name + '</option>');
+							}
+						});
+					}
+				});
+			});
+			$(".city").on("click", "option", function () {
+				var ci = $(this).val();
+				$('.xs').empty();
+				$.ajax({
+					url: "city.json",
+					type: 'GET',
+					data: {
+						CitySort: ci
+					},
+					success: function (data) {
+						$.each(data, function (i, n) {
+							if (ci == data[i].CityID) {
+								var city = data[i].name;
+								$.ajax({
+									url: "https://free-api.heweather.net/s6/weather/now?location=" + city +
+									"&key=6efec29d41c64264a1e7ea037adf40ca",
+
+										// "&key=4693ff5ea653469f8bb0c29638035976",
+									type: "get",
+									success: function (data) {
+										
+										var xs = data.HeWeather6[0];
+										var xcs = xs.basic.location;
+										var ximg = xs.now.cond_code;
+										var xwd = xs.now.tmp;
+										$('.xs').append("<li>城市：<span>" + xcs + "</span></li><li>天气：<img src='icon/" + ximg + ".png'></li><li>温度：<span>" + xwd + "℃</span></li>");
+										$('.left ol').empty();
+										$.ajax({
+											url: "https://free-api.heweather.net/s6/weather/forecast?location=" + city +
+												"&key=6efec29d41c64264a1e7ea037adf40ca",
+											type: "get",
+											success: function (f_data) {
+												var datalist = f_data.HeWeather6[0].daily_forecast;
+												console.log(datalist)
+												$('.left ol').each(function (i) {
+													$(this).append("<ol><li>" + datalist[i].date + "</li><li><img src='icon/" + datalist[i].cond_code_d + ".png'></li><li>" + datalist[i].cond_txt_d + "</li><li>" + datalist[i].tmp_min + "℃~" + datalist[i].tmp_max + "℃</li><li>" + datalist[i].wind_dir + "</li></ol>");
+												});
+											},
+											error: function (error) {
+												console.log(error);
+											}
+										});
+									},
+									error: function (error) {
+										console.log(error);
+									}
+								})
+							}
+						});
+					}
+				});
+			});
+		});
+	</script>
+	<style>
+		ul {
+			list-style: none;
+			overflow: hidden;
+		}
+
+		ul li img {
+			display: inline-block;
+			width: 25px;
+			height: 25px;
+			vertical-align: middle
+		}
+
+		ul li:nth-child(1) {
+			width: 150px !important;
+		}
+
+		ul li {
+			float: left;
+			text-align: center;
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+		}
+
+		ol {
+			float: left;
+			list-style: none;
+		}
+
+		ol li {
+			width: 100px;
+			height: 50px;
+			line-height: 50px;
+		}
+
+		ol li img {
+			display: inline-block;
+			width: 40px;
+			height: 40px;
+			vertical-align: middle
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header"></div>
+	<div class="content"
+		style="width: 800px;height: 500px; position: absolute; margin: auto; top: 0;left: 0; bottom: 0;right: 0;">
+		<span>选择省份</span>
+		<select  id="province" class="province">
+			  <option value="--" selected="selected">--请选择--</option> 
+		</select>
+		<span>选择城市</span>
+		<select  id="city" class="city">      
+			  <option value="--" selected="selected">--请选择--</option> 
+		</select>
+		<div>
+			<ul class="xs">
+				<!-- <li>城市：<span class="xcity">北京</span></li>
+				<li>天气：<img class="xtq" src="icon/100.png"></li>
+				<li>温度：<span class="wendu">31℃</span></li> -->
+			</ul>
+			<div class="left">
+				<ol>
+
+				</ol>
+				<ol>
+
+				</ol>
+				<ol>
+
+				</ol>
+			</div>
+		</div>
+	</div>
+	<div id="footer"></div>
+</body>
+<script>
+	$('#header').load("../reuse/top.html");
+	$('#footer').load("../reuse/footer.html", function () {
+		if ($(window).height() > $('html').height()) {
+			$('footer').css({
+				"position": "fixed",
+				"bottom": "0",
+				"left": "0"
+			});
+		}
+	});
+</script>
+
+</html>

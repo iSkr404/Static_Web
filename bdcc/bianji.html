@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/css/bootstrap.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.3/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.0.1/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-horizontal">
+            <h2>商品编辑</h2>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">商品名称</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">商品价格</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="pri">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">商品数量</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="snum">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="btn" class="btn btn-default">保存</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        console.log(window.localStorage);
+        console.log(window.location);
+        // 获取URL地址中的第一个参数
+        var params = new URLSearchParams(window.location.search.substring(1));
+        var id = params.get('id');
+        var data = JSON.parse(localStorage.getItem('data'));
+        for (var key in data) {
+            if (data[key].id == id) {
+                $('#name').val(data[key].name);
+                $('#pri').val(data[key].price);
+                $('#snum').val(data[key].amount);
+            }
+        }
+        $('#btn').click(function () {
+            var name = $('#name').val();
+            var price=$('#pri').val();
+            var snum=$('#snum').val();
+            console.log(name,price,snum);
+            for (var key in data) {
+                if (data[key].id == id) {
+                    data[key].name = name;
+                    data[key].price = price;
+                    data[key].amount = snum;
+                }
+            }
+            localStorage.setItem('data', JSON.stringify(data))
+            // window.location.href="index.html";
+            window.location.href = "./index.html";
+            // history.back();
+        })
+
+    </script>
+</body>
+
+</html>

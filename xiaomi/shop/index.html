@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/jquery.js"></script>
+		<style>
+			body {
+				margin:0;
+				padding:0;
+			}
+			#header {
+				height:50px;
+				line-height:50px;
+				background-color:#999;
+				font-size:20px;
+				color:#fff;
+				padding-left:20px;
+			}
+			ul li {
+				list-style:none;
+				height:125px;
+				background-color:#ccc;
+				padding:10px;
+				width:200px;
+				margin:10px;
+				border-radius:5px;
+			}
+			.name,.price,.num {
+				font-size:18px;
+				font-weight:bolder;
+			}
+			.opera span {
+				width:30px;
+				height:30px;
+				display:inline-block;
+				background:#eee;
+				line-height:30px;
+				text-align:center;
+			}
+			.plus,.sub {
+				cursor:pointer;
+				border:1px solid #666;
+			}
+			.numchange {
+				background-color:#fff;
+				width:30px;
+				height:30px;
+				text-align:center;
+			}
+		</style>
+		<script>
+			$(function(){
+				// 点击全选，遍历其他CheckBox，将全选CheckBox的状态同步给其他CheckBox
+				    $(".checkall").on("click", function() {
+				        // checked是DOM元素的一个属性，需要通过[0]访问
+				        var flag = $(this)[0].checked;
+				        $(".checksin").each(function() {
+				            $(this)[0].checked = flag;
+				        })
+				        result()
+				    });
+				    $(".checksin").on("click", function() {
+				        var i = 0;
+				        $(".checksin").each(function() {
+				            // 存在一个未选中，则，全选按钮未选中
+				            if ($(this)[0].checked == false) {
+				                $(".checkall")[0].checked = false;
+				            } else {
+				                // 如果是选中的，累加，和全部长度比较
+				                i += 1;
+				                if (i == $(".checksin").length) {
+				                    $(".checkall")[0].checked = true;
+				                }
+				            }
+				
+				        })
+				        result();
+				    });
+				    $(".plus").click(function() {
+				        $(this).next().val(parseInt($(this).next().val()) + 1)
+				        result()
+				    });
+				    $(".sub").click(function() {
+				        $(this).prev().val(parseInt($(this).prev().val()) - 1);
+				        if (parseInt($(this).prev().val()) <= 1) {
+				            $(this).prev().val(1);
+				        }
+				        result()
+				    });
+			})
+			// 计算函数
+			function result() {
+			    var allprice = 0;
+			    var allnum = 0;
+			    $("li").each(function() {
+			        if ($(this).find(".checksin")[0].checked == true) {
+			            allprice += parseFloat($(this).find(".price").html()) * parseInt($(this).find(".numchange").val());
+			            allnum += parseInt($(this).find(".numchange").val());
+			        } else {
+			            allprice += 0;
+			            allnum += 0;
+			        }
+			    });
+			    $(".allprice").html(allprice);
+			    $(".allnum").html(allnum);
+			}
+			// 删除某项
+			function del() {
+			    $("li").each(function() {
+			        if ($(this).find(".checksin")[0].checked == true) {
+			            $(this).remove();
+			        }
+			    })
+			    result()
+			}
+		</script>
+	</head>
+	<body>
+		<div id="header">模拟购物车的增删计算</div>
+		<div id="content">
+		    全选<input type="checkbox" class="checkall">
+		    <ul>
+		        <li class="list1">
+		            <input type="checkbox" class="checksin"><br> 名称:
+		            <span class="name">手机</span><br> 单价:
+		            <span class="price">123</span><br> 数量:
+		            <div class="opera">
+		                <span class="plus">+</span>
+		                <input type="text" class="numchange" value="1">
+		                <span class="sub">-</span>
+		            </div>
+		        </li>
+		        <li class="list2">
+		            <input type="checkbox" class="checksin"><br> 名称:
+		            <span class="name">笔记本</span><br> 单价:
+		            <span class="price">234</span><br> 数量:
+		            <div class="opera">
+		                <span class="plus">+</span>
+		                <input type="text" class="numchange" value="2">
+		                <span class="sub">-</span>
+		            </div>
+		        </li>
+		        <li class="list3">
+		            <input type="checkbox" class="checksin"><br> 名称:
+		            <span class="name">背包</span><br> 单价:
+		            <span class="price">345</span><br> 数量:
+		            <div class="opera">
+		                <span class="plus">+</span>
+		                <input type="text" class="numchange" value="3">
+		                <span class="sub">-</span>
+		            </div>
+		        </li>
+		    </ul>
+		</div>
+		<div id="footer">
+		    结算 总价钱:
+		    <span class="allprice">0</span> 总数量:
+		    <span class="allnum">0</span>
+		    <button class="del" onclick="del()">删除</button>
+		</div>
+	</body>
+</html>

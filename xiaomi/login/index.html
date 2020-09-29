@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="../js/jquery.js"></script>
+		<script>
+			$(function(){
+				$('input[type=text]').blur(function(){
+					var te=$('input[type=text]').val();
+					$.ajax({
+						url:"demo.php",
+						type:"GET",
+						data:{
+							n_ame:te
+						},
+						success:function(data){
+							$('.tex').text(data);
+						}
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<p>注册：<input type="text" /></p>
+		<p>密码：<input type="password" /></p>
+		<p>&nbsp;&nbsp;<input type="button" value="注册" /><input type="button" value="取消" /></p>
+		<p class="tex"></p>
+	</body>
+</html>

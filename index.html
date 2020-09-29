@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<title>jquery</title>
+	<link rel="icon" href="img/title.png" />
+	<!-- Bootstrap -->
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+	<script src="jquery.js"></script>
+	<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+	<script src="bootstarp/js/bootstrap.js"></script>
+	<script src="index.js" type="text/javascript"></script>
+	<link href="bootstarp/css/bootstrap.css" rel="stylesheet">
+	<link href="index.css" rel="stylesheet" />
+	<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+	<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+	<!--[if lt IE 9]>
+		<script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+	<nav class="navbar navbar-default navbar-inverse">
+		<div class="container">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">
+						iSkr
+						<span class="glyphicon glyphicon-object-align-left"></span>
+					</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a href="#">首页<span class="sr-only">(current)</span></a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false">更多
+								<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="register" data-toggle="modal" data-target="#myModal"><a href="#">注册</a></li>
+								<li data-toggle="modal" data-target="#aaa"><a href="#">登录</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</div>
+	</nav>
+	<div class="centre">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-lg-offset-3">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="我的个人案例展示!">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button">Go!</button>
+						</span>
+					</div><!-- /input-group -->
+				</div><!-- /.col-lg-6 -->
+			</div><!-- /.row -->
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="hidden-xs col-sm-4 col-md-3 ">
+				<div class="list-group list" id="slide">
+					<a href="#htmldemo" class="list-group-item control">html&css3</a>
+					<a href="#bootdemo" class="list-group-item control">Bootstrap</a>
+					<a href="#jsdemo" class="list-group-item control">JavaScript</a>
+					<a href="#jquerydemo" class="list-group-item control">Jquery</a>
+					<a href="#ajaxdemo" class="list-group-item control">Ajax</a>
+					<a href="#vuedemo" class="list-group-item control">Vue</a>
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-8 col-md-9 content">
+				<div class="contentDemo nav" id="htmldemo">
+					<h3 class="categor">静态网页案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="xiaomi/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/xiaomi.png" />
+									</div>
+								</div>
+								<span>小米</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="fristWeb/webpage.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/fWeb.png" />
+									</div>
+								</div>
+								<span>内容1</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="contentDemo nav" id="bootdemo">
+					<h3 class="categor">Bootstrap案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="alibaixiu/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/alibaixiu.png" />
+									</div>
+								</div>
+								<span>Bootstrap学习</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="contentDemo nav" id="jsdemo">
+					<h3 class="categor">Javascript案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="Snake/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/snake.png" />
+									</div>
+								</div>
+								<span>贪吃蛇</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="bdcc/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/b_data.png" />
+									</div>
+								</div>
+								<span>数据修改</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="contentDemo nav" id="jquerydemo">
+					<h3 class="categor">Juqery案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="alter_data/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/shujuxiugai.png" />
+									</div>
+								</div>
+								<span>表格数据修改</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="Magnifying_glass/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/fdajin.jpg" />
+									</div>
+								</div>
+								<span>放大镜</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="typer/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/gequdaziji.png" />
+									</div>
+								</div>
+								<span>歌词打字机</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="danmu/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/danmu.png" />
+									</div>
+								</div>
+								<span>弹幕</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="contentDemo nav" id="ajaxdemo">
+					<h3 class="categor">Ajax案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="weather/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/tianqichaxun.png" />
+									</div>
+								</div>
+								<span>省级联动查天气</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="todolist/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/beiwanglu.png" />
+									</div>
+								</div>
+								<span>备忘录</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="php+jquery+ui/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/zhiwen.png" />
+									</div>
+								</div>
+								<span>知问前端</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="login/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/login.png" />
+									</div>
+								</div>
+								<span>登录</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="contentDemo nav" id="vuedemo">
+					<h3 class="categor">Vue案例</h3>
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="Jsq/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/jsq.png" />
+									</div>
+								</div>
+								<span>计算器</span>
+							</a>
+						</div>
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<a href="Dkday/index.html" class="thumbnail">
+								<div class="aspect-box" aspect-ratio="16:10">
+									<div class="aspect-box-content">
+										<img src="img/dk.png" />
+									</div>
+								</div>
+								<span>打卡计划</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<div class="container">
+			<span>© 2020
+				<a href="https://gitee.com/iskr/jquery">iskr</a>
+				提个供
+			</span>
+			<span class="hidden-xs xx">
+				<i class="glyphicon glyphicon-envelope"></i>
+				<a>1975233760@qq.com</a>
+			</span>
+		</div>
+	</footer>
+</body>
+
+</html>

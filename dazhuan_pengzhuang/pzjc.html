@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            left: 250px;
+
+            top: 150px;
+        }
+
+        #div2 {
+            width: 100px;
+            height: 100px;
+            background-color: seashell;
+            position: absolute;
+            left: 200px;
+            top: 300PX;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var div1 = document.getElementById("div1");
+            var div2 = document.getElementById("div2");
+
+            div2.onmousedown = function (ev) {
+                var e = ev || window.event;
+                var offsetx = e.clientX - div2.offsetLeft;
+                var offsety = e.clientY - div2.offsetTop;
+                console.log(offsetx + "  " + div2.offsetLeft);
+                document.onmousemove = function (ev) {
+                    var e = ev || window.event;
+                    if (pengzhang(div1, div2)) {
+                        div1.style.backgroundColor = "black";
+                    } else {
+                        div1.style.backgroundColor = "red";
+                    }
+                    div2.style.top = e.clientY - offsety + "px";
+                    div2.style.left = e.clientX - offsetx + "px";
+                }
+                document.onmouseup = function () {
+                    document.onmousemove = null;
+                }
+            }
+        }
+        function pengzhang(node1, node2) {
+            var l1 = node1.offsetLeft;
+            var r1 = node1.offsetLeft + node1.offsetWidth;
+            var t1 = node1.offsetTop;
+            var b1 = node1.offsetTop + node1.offsetHeight;
+
+            var l2 = node2.offsetLeft;
+            var r2 = node2.offsetLeft + node1.offsetWidth;
+            var t2 = node2.offsetTop;
+            var b2 = node2.offsetTop + node1.offsetHeight;
+
+            if (l2 > r1 || r2 < l1 || t2 > b1 || b2 < t1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div id="div1"></div>
+    <div id="div2"></div>
+</body>
+
+</html>

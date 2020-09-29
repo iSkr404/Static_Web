@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/1.9.1/jquery.js"></script>
+		
+		<style>
+			h2{
+			    text-align: center;
+			}
+			
+			.content {
+			    width: 400px;
+			    height: 40px;
+			    margin: 20px auto;
+			}
+			
+			.input1 {
+			    margin-bottom: 20px;
+			    width: 400px;
+			    height: 40px;
+			}
+			
+			.btn1 {
+			    float: right;
+			}
+			
+			.content li {
+			    line-height: 40px;
+			}
+			.show_count,.suc_count{
+				display:inline-block;
+			}
+			i{
+				font-style:normal;
+			}
+			button{
+				font:normal !important;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+			}
+		</style>
+		<script>
+			$(function(){
+					// $('#header').load("../reuse/top.html");
+					/*var todolist=[{
+						title:"holle work",
+						done:false
+					},{
+						title:"今天过得好吗？",
+						done:false
+					}];
+					localStorage.setItem("todo",JSON.stringify(todolist));
+					存
+					localStorage.setItem("todo",todolist);
+					本地存储只能储存字符串的数据格式
+					把我们的数组对象转换为字符串格式【JSON.stringify()】
+					var data=localStorage.getItem("todo");
+					console.log(data)  取
+					获取本地存储的数据，我们需要把里面的字符串数据格式转换为对象格式 JSON.parse()
+					data=JSON.parse(data);
+					console.log(data[0].title);
+					 */
+					$('#footer').load("../reuse/footer.html",function(){
+						if($(window).height()>$('html').height()){
+							$('footer').css({
+								"position":"fixed",
+								"bottom": "0",
+								"left": "0"
+							});
+						}
+					});
+				
+				load();
+				$('.input1').on('keydown',function(event){
+					if(event.keyCode==13){
+						if($(this).val()==""){
+							alert("请输入代办事，不可以为空")
+						}else{
+							//先读取本地储存原来的数据
+							var local=getDate();
+							//把local数组进行更新数据，把最新的数据追加给local数组
+							local.push({title:$(this).val(),done:false});
+							//把这个数组loca 存储给本地
+							savaDate(local);
+							//把本地存储的数据渲染到页面
+							load();
+						}
+						$(this).val(" ");
+					}
+				});
+				//删除数据操作
+				$(".showdata,.success_date").on("click",".btn1",function(){
+					// 获取本地数据
+					var data=getDate();
+					//修改数据
+					var index=$(this).attr('id');
+					// console.log(index);
+					data.splice(index,1);
+					//保存到本地存储
+					savaDate(data);
+					//重新渲染页面
+					load();
+				});
+				//正在进行和已完成选项操作
+				$(".showdata,.success_date").on("click","input[type=checkbox]",function(){
+					// 获取本地数据
+					var data=getDate();
+					//修改数据
+					var index=$(this).siblings('.btn1').attr('id');
+					console.log(index);
+					data[index].done=$(this).prop('checked');
+					console.log(data)
+					// 保存到本地存储
+					savaDate(data);
+					//重新渲染页面
+					load();
+				});
+				//读取本地储存数据
+				function getDate(){
+					var data=localStorage.getItem("todolist");
+					if(data !== null){
+						return JSON.parse(data);
+					}else{
+						return [];
+					}
+				}
+				//保存本地存储
+				function savaDate(date){
+					localStorage.setItem("todolist",JSON.stringify(date));
+				}
+				//渲染数据
+				function load(){
+					// 统计
+					var tocount=0;
+					var sucount=0;
+					var data=getDate();
+					//清空元素，不然会重复追加
+					$(".showdata,.success_date").empty();
+					// console.log(data)读取数据成功
+					$.each(data,function(i,n){
+						// console.log(n.done)
+						if(n.done){
+							sucount++;
+							
+							$(".success_date").prepend('<li><input type="checkbox" checked="checked"/>'+n.title+'<input  id='+i+' type="button" value="删除" class="btn1" /></li>');
+						}else{
+							tocount++;
+							
+							$(".showdata").prepend('<li><input type="checkbox" />'+n.title+'<input  id='+i+' type="button" value="删除" class="btn1" /></li>');
+						}
+					});
+					$('.show_count i').text(tocount);
+					$('.suc_count i').text(sucount);
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="header"></div>
+		<h2>备忘录</h2>
+		<div class="content">
+			<input class="input1" type="text" />
+			&nbsp;
+			<hr>
+			<h3>待办事项</h3><span class="show_count">未完成 <i>1<i></span>
+			<ul class="showdata">
+				<li>
+					<input type="checkbox" />
+					{{item.title}}
+					<!-- <button class="btn1">删除</button> -->
+					<input type="button" value="删除" class="btn1" />
+				</li>
+			</ul>
+			<h3>已完成事项</h3><span class="suc_count">已完成 <i>1<i></span>
+			<ul class="success_date">
+				<li>
+					<input type="checkbox" checked="checked" />
+					{{item.title}}
+					<!-- <button class="btn1">删除</button> -->
+					<input type="button" value="删除" class="btn1" />
+				</li>
+			</ul>
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>

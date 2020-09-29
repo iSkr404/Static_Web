@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>贪吃蛇</title>
+    <script src="../cookie.js"></script>
+    <script src="../global.js"></script>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #main {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            width: 100px;
+            height: 40px;
+        }
+
+        .tltie span {
+            color: red;
+        }
+
+        .aniu {
+            margin-top: 50px;
+            margin-left:300px;
+            display: grid;
+            grid-template-columns: 25px 25px 25px;
+            grid-template-rows: 25px 25px 25px;
+        }
+
+        .fx {
+            /*display: inline-block;*/
+            /*width: ;*/
+            /*height: 50px;*/
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+<div id="main">
+    <h1>贪吃蛇</h1>
+    <input class="btn" type="button" value="开始游戏" id="start">
+    <input class="btn" type="button" value="暂停游戏" id="tout">
+    <span class="tltie" style="margin-left: 50px">第<span id="num">1</span>关</span>
+    <span class="cont" style="margin-left: 50px">得分：<span id="score">0</span></span>
+    <span style="margin-left: 50px">历史最高得分：<span id="maxf">0</span></span>
+    <span class="aniu">
+        <span></span><span class="fx">上</span> <span></span>
+        <span class="fx">左</span><span></span><span class="fx">右</span>
+        <span></span> <span class="fx">下</span> <span></span>
+    </span>
+</div>
+<script>
+    var main = document.getElementById("main");
+    var showcanvs = false;//是否开启显示像素
+    var sf = [];
+
+    //TODO ：地图类
+    function Map(atom, xnum, ynum) {
+        this.atom = atom;//像素
+        this.ynum = ynum;
+        this.xnum = xnum;
+
+        this.canvas = null;
+
+        //创建画布的方法
+        this.create = function () {
+            this.canvas = document.createElement("div");
+            this.canvas.style.cssText = "position:relative;top:40px;border:1px solid darkred;background:#FAFAFA";
+            this.canvas.style.width = this.atom * this.xnum + "px";//画布的宽
+            this.canvas.style.height = this.atom * this.ynum + "px";//画布的高
+            main.appendChild(this.canvas);
+            if (showcanvs) {
+                for (let i = 0; i < xnum; i++) {
+                    for (let j = 0; j < ynum; j++) {
+                        var ba = document.createElement("div");
+                        ba.style.cssText = "border:1px solid yellow";
+                        ba.style.width = this.atom + "px";
+                        ba.style.height = this.atom + "px";
+                        ba.style.background = "#be9117";
+                        this.canvas.appendChild(ba);
+                        ba.style.position = "absolute";
+                        ba.style.left = i * this.atom + "px";
+                        ba.style.top = j * this.atom + "px";
+                    }
+                }
+            }
+        }
+    }
+
+    //创建食物
+    function Food(map) {
+        this.width = map.atom;
+        this.height = map.atom;
+        this.bgcolor = "rgb(" + Math.floor(Math.random() * 200) + "," + Math.floor(Math.random() * 200) + "," + Math.floor(Math.random() * 200) + ")";
+
+        //食物随机出现的位置
+        this.x = Math.floor(Math.random() * map.xnum);
+        this.y = Math.floor(Math.random() * map.ynum);
+
+        this.flag = document.createElement("div");
+        this.flag.style.width = this.width + "px";
+        this.flag.style.height = this.height + "px";
+
+
+        this.flag.style.background = this.bgcolor;
+        this.flag.style.position = "absolute";
+        this.flag.style.top = this.y * this.height + "px";
+        this.flag.style.left = this.x * this.width + "px";
+        map.canvas.appendChild(this.flag);
+    }
+
+    function Snake(map) {
+        var _this = this;
+        this.width = map.atom;
+        this.height = map.atom;
+
+        //默认走的方向
+        this.direction = "right";
+
+        //分数
+        this.scre = 0;
+
+        this.body = [
+            {x: 2, y: 0},//蛇头
+            {x: 1, y: 0},//蛇体
+            {x: 0, y: 0}//蛇尾
+        ];
+
+        //显示蛇
+        this.display = function () {
+            for (var i = 0; i < this.body.length; i++) {
+                //当吃到食物时x==null,不能新建
+                if (this.body[i].x != null) {
+                    var snk = document.createElement("div");
+                    //将节点保存到一个状态变量中，以便之后删除
+                    this.body[i].flag = snk;
+
+                    //设置蛇的样式
+                    snk.style.width = this.width + "px";
+                    snk.style.height = this.height + "px";
+                    snk.style.background = "rgb(" + Math.floor(Math.random() * 200) + "," + Math.floor(Math.random() * 200) + "," + Math.floor(Math.random() * 200) + ")";
+
+                    snk.style.position = "absolute";
+                    snk.style.left = this.body[i].x * this.width + "px";
+                    snk.style.top = this.body[i].y * this.height + "px";
+
+                    map.canvas.appendChild(snk);
+                }
+            }
+        }
+
+        this.run = function () {
+            for (var i = this.body.length - 1; i > 0; i--) {
+                this.body[i].x = this.body[i - 1].x;
+                this.body[i].y = this.body[i - 1].y;
+
+            }
+
+            //默认方向右
+            switch (this.direction) {
+                case "left":
+                    this.body[0].x -= 1;
+                    break;
+                case "right":
+                    this.body[0].x += 1;
+                    break;
+                case "up":
+                    this.body[0].y -= 1;
+                    break;
+                case "down":
+                    this.body[0].y += 1;
+                    break;
+            }
+            //判断食物和蛇头重合
+            if (this.body[0].x == food.x && this.body[0].y == food.y) {
+                //增加一个节点
+                this.body.push({x: null, y: null, flag: null});
+                this.scre++;
+                //判断级别设置
+                if (this.body.length > level.slenght) {
+                    level.set();
+                }
+                map.canvas.removeChild(food.flag);
+                food = new Food(map);
+            }
+            document.getElementById("score").innerHTML = this.scre;
+
+            //判断是否出边界，蛇头
+            if (this.body[0].x < 0 || this.body[0].x > map.xnum - 1 || this.body[0].y < 0 || this.body[0].y > map.ynum - 1) {
+                clearInterval(timer);
+                alert("游戏结束哈哈哈哈，笨死了！")
+                if (sf.indexOf(_this.scre) === -1) {
+                    // 不存在,则添加
+                    sf.push(_this.scre);
+                }
+                setCookie("maxArr", sf, 7);
+                var max = sf[0];
+                for (var i = 1, ilen = sf.length; i < ilen; i++) {
+                    if (sf[i] > max) {
+                        max = sf[i];
+                    }
+                }
+                document.getElementById("maxf").innerHTML = max;
+                restart(map, _this);
+                this.scre = 0;
+                document.getElementById("score").innerHTML = this.scre;
+                return false;
+            }
+            for (var i = 4; i < this.body.length; i++) {
+                if (this.body[0].x == this.body[i].x && this.body[0].y == this.body[i].y) {
+                    clearInterval(timer);
+                    alert("你撞到自己的身体了，笨死了！");
+                    if (sf.indexOf(_this.scre) === -1) {
+                        // 不存在,则添加
+                        sf.push(_this.scre);
+                    }
+                    setCookie("maxArr", sf, 7);
+                    var max = sf[0];
+                    for (var i = 1, ilen = sf.length; i < ilen; i++) {
+                        if (sf[i] > max) {
+                            max = sf[i];
+                        }
+                    }
+                    document.getElementById("maxf").innerHTML = max;
+                    restart(map, _this);
+                    this.scre = 0;
+                    document.getElementById("score").innerHTML = this.scre;
+                    return false;
+                }
+            }
+
+            for (var j = 0; j < this.body.length; j++) {
+                if (this.body[j].flag != null) {
+                    map.canvas.removeChild(this.body[j].flag);
+                }
+            }
+            this.display();
+        }
+    }
+
+    var map = new Map(20, 40, 20);
+    map.create();
+
+    var food = new Food(map);
+
+    var snake = new Snake(map);
+    snake.display();
+
+    var level = new Level();
+    level.display();
+
+    //重新开始游戏
+    function restart(map, snake) {
+        for (var i = 0; i < snake.body.length; i++) {
+            map.canvas.removeChild(snake.body[i].flag);
+        }
+        snake.body = [
+            {x: 2, y: 0},//蛇头
+            {x: 1, y: 0},//蛇体
+            {x: 0, y: 0}//蛇尾
+        ];
+
+        snake.direction = "right";
+        snake.display();
+
+        map.canvas.removeChild(food.flag);
+        food = new Food(map);
+    }
+
+    //设置级别对象
+    function Level() {
+        this.num = 1;//等级
+        this.speed = 300;//速度
+        this.slenght = 2;//蛇的长度到8,升一关
+
+
+        this.set = function () {
+            this.num++;
+            if (this.speed <= 40) {
+                this.speed = 20;
+            } else {
+                this.speed -= 40;
+            }
+            this.slenght += 1;//通关难度
+
+            this.display();
+
+            start();//重新开始，速度加快
+        }
+
+        this.display = function () {
+            document.getElementById("num").innerHTML = this.num;
+        }
+    }
+
+    //键盘事件，处理方向
+    window.onkeydown = function (e) {
+        var event = e || window.event;
+
+        switch (event.keyCode) {
+            case 38:
+                snake.direction = "up";
+                break;
+            case 40:
+                snake.direction = "down";
+
+                break;
+            case 37:
+                snake.direction = "left";
+
+                break;
+            case 39:
+                snake.direction = "right";
+                break;
+        }
+    }
+    var fx = document.getElementsByClassName("fx");
+    for (let i = 0; i < fx.length; i++) {
+        fx[i].onclick = function () {
+            switch (i) {
+                case 0:
+                    snake.direction = "up";
+                    break;
+                case 1:
+                    snake.direction = "left";
+                    break;
+                case 2:
+                    snake.direction = "right";
+                    break;
+                case 3:
+                    snake.direction = "down";
+                    break;
+            }
+        }
+    }
+
+
+    function start() {
+        clearInterval(timer);
+        timer = setInterval(function () {
+            snake.run();
+        }, level.speed);
+    }
+
+    var timer;//定时器
+
+    document.getElementById("start").onclick = function () {
+        start();
+    }
+    document.getElementById("tout").onclick = function () {
+        clearInterval(timer);
+    }
+    //设置历史最高分
+
+</script>
+</body>
+</html>
